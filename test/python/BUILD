@@ -1,17 +1,31 @@
-load("@//python:pylint.bzl", "pylint_test")
+load("@//python:pylint.bzl", "pylint")
 load("@//python:yapf.bzl", "yapf")
 
-pylint_test(
+exports_files([
+    "pylintrc",
+    "yapfstyle",
+])
+
+pylint(
     name = "lint_python",
-    srcs = glob(["**/*.py"], ["bazel-**/*"]),
+    glob = [
+        "**/*.py",
+    ],
+    glob_exclude = [
+        "bazel-**/*",
+    ],
     rcfile = "pylintrc",
-    extra_args = ["--disable=E1120", "--disable=W0613"],
     visibility = ["//visibility:public"],
 )
 
 yapf(
     name = "format_python",
-    srcs = glob(["**/*.py"], ["bazel-**/*"]),
+    glob = [
+        "**/*.py",
+    ],
+    glob_exclude = [
+        "bazel-**/*",
+    ],
     style_file = "yapfstyle",
     visibility = ["//visibility:public"],
 )

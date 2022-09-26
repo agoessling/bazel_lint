@@ -1,35 +1,42 @@
-load("@bazel_skylib//rules:native_binary.bzl", "native_test")
-load("@rules_python//python:defs.bzl", "py_binary")
+"""Clang linting macros."""
 
-def clang_format(name, srcs, style_file=None, extra_args=None, visibility=None):
-    src_args = ["$(rootpath {})".format(x) for x in srcs]
+load("@//common:lint_tool.bzl", "lint_tool")
 
-    if not extra_args:
-        extra_args = []
+def clang_format(
+        name,
+        srcs = None,
+        glob = None,
+        glob_exclude = None,
+        style_file = None,
+        extra_args = None,
+        visibility = None):
+    """Clang formatting tool
+
+    Args:
+      name: Base name of package.
+      srcs: Sources to be passed to formatter.
+      glob: Globs to be passed to formatter.
+      glob_exclude: Globs to be excluded from "srcs" and "glob".
+      style_file: Clang-format style file.
+      extra_args: Extra arguments to pass to formatter.
+      visibility: Visibility of targets."""
 
     style_args = []
     if style_file:
         style_args = ["--style=file:$(rootpath {})".format(style_file)]
 
-    native_test(
-        name = name + ".test",
-        src = "@//cpp:clang-format",
-        out = "clang-format_test_copy",
-        args = src_args + style_args + extra_args + ["--dry-run", "--Werror"],
-        data = srcs + ([style_file] if style_file else []),
-        visibility = visibility,
-    )
+    if not extra_args:
+        extra_args = []
 
-    py_binary(
-        name = name + ".fix",
-        srcs = ["@//cpp:clang_format_wrapper"],
-        main = "clang_format_wrapper.py",
-        data = ["@//cpp:clang-format"] + srcs + ([style_file] if style_file else []),
-        args = (
-            # Signal to wrapper to translate files to workspace directory.
-            ["--wrapper_clang_format_path", "$(rootpath @//cpp:clang-format)"] +
-            ["--wrapper_workspace_files"] + src_args +
-            ["-i"] + style_args + extra_args
-        ),
+    lint_tool(
+        name = name,
+        tool = "@//cpp:clang-format",
+        test_args = ["--dry-run", "--Werror"],
+        fix_args = ["-i"],
+        srcs = srcs,
+        glob = glob,
+        glob_exclude = glob_exclude,
+        extra_args = style_args + extra_args,
+        data = [style_file] if style_file else [],
         visibility = visibility,
     )

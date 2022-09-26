@@ -3,11 +3,5 @@
 
 import pylint
 
-
-def main():
-  '''Main function.'''
-  pylint.run_pylint()
-
-
 if __name__ == '__main__':
-  main()
+  pylint.run_pylint()
