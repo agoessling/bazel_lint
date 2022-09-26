@@ -1,14 +1,10 @@
+load("@bazel_skylib//rules:native_binary.bzl", "native_binary")
 load("@rules_python//python:defs.bzl", "py_binary")
 
-alias(
-    name = "clang-format",
-    actual = "@llvm//:clang-format",
-    visibility = ["//visibility:public"],
-)
-
-alias(
-    name = "clang-tidy",
-    actual = "@llvm//:clang-tidy",
+native_binary(
+    name = "buildifier",
+    src = "@buildifier//file",
+    out = "buildifier_copy",
     visibility = ["//visibility:public"],
 )
 
