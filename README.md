@@ -22,9 +22,9 @@ http_archive(
     # See release page for latest version url and sha.
 )
 
-load("@bazel_lint//:bazel_lint_first_level_deps.bzl", "bazel_lint_first_level_deps")
+load("@bazel_lint//bazel_lint:bazel_lint_first_level_deps.bzl", "bazel_lint_first_level_deps")
 bazel_lint_first_level_deps()
 
-load("@bazel_lint//:bazel_lint_second_level_deps.bzl", "bazel_lint_second_level_deps")
+load("@bazel_lint//bazel_lint:bazel_lint_second_level_deps.bzl", "bazel_lint_second_level_deps")
 bazel_lint_second_level_deps()
 ```
