@@ -1,4 +1,4 @@
-load("@//cpp:clang.bzl", "clang_format")
+load("@bazel_lint//cpp:clang.bzl", "clang_format")
 
 clang_format(
     name = "format_cc",

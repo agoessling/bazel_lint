@@ -1,6 +1,6 @@
 """Buildifier linting macros."""
 
-load("@//common:lint_tool.bzl", "lint_tool")
+load("@bazel_lint//common:lint_tool.bzl", "lint_tool")
 
 def buildifier(
         name,
@@ -11,7 +11,7 @@ def buildifier(
         visibility = None):
     lint_tool(
         name = name,
-        tool = "@//bazel:buildifier",
+        tool = "@bazel_lint//bazel:buildifier",
         test_args = ["-lint=warn"],
         fix_args = ["-lint=fix"],
         srcs = srcs,

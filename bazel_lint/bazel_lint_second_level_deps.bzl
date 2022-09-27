@@ -7,7 +7,7 @@ def bazel_lint_second_level_deps():
     """Second level of dependencies."""
     pip_install(
         name = "bazel_lint_py_deps",
-        requirements = "@//:requirements.txt",
+        requirements = "@bazel_lint//:requirements.txt",
     )
 
     bazel_skylib_workspace()

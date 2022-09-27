@@ -26,7 +26,7 @@ def bazel_lint_first_level_deps():
     # llvm
     http_archive(
         name = "llvm",
-        build_file = "@//third_party:llvm.BUILD",
+        build_file = "@bazel_lint//third_party:llvm.BUILD",
         sha256 = "ad0f6eb12ecdfbdb61105e4fefbc2b16b90fb8a04248097acb7d2fe00ec4694d",
         strip_prefix = "clang+llvm-14.0.6-x86_64-ubuntu-22.04",
         url = "https://github.com/awakecoding/llvm-prebuilt/releases/download/v2022.2.0/clang+llvm-14.0.6-x86_64-ubuntu-22.04.tar.xz",

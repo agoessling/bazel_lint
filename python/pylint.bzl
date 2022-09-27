@@ -1,6 +1,6 @@
 """Pylint linting macros."""
 
-load("@//common:lint_tool.bzl", "lint_tool")
+load("@bazel_lint//common:lint_tool.bzl", "lint_tool")
 
 def pylint(
         name,
@@ -28,9 +28,11 @@ def pylint(
     if not extra_args:
         extra_args = []
 
+    extra_args.append("-j0")
+
     lint_tool(
         name = name,
-        tool = "@//python:pylint",
+        tool = "@bazel_lint//python:pylint",
         test_args = [],
         fix_args = [],
         srcs = srcs,

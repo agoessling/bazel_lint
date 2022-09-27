@@ -52,7 +52,7 @@ def lint_tool(
 
     py_binary(
         name = name + ".test",
-        srcs = ["@//common:tool_wrapper"],
+        srcs = ["@bazel_lint//common:tool_wrapper"],
         main = "tool_wrapper.py",
         data = data + [tool] + srcs,
         args = (
@@ -67,7 +67,7 @@ def lint_tool(
 
     py_binary(
         name = name + ".fix",
-        srcs = ["@//common:tool_wrapper"],
+        srcs = ["@bazel_lint//common:tool_wrapper"],
         main = "tool_wrapper.py",
         data = data + [tool] + srcs,
         args = (

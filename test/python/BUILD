@@ -1,5 +1,5 @@
-load("@//python:pylint.bzl", "pylint")
-load("@//python:yapf.bzl", "yapf")
+load("@bazel_lint//python:pylint.bzl", "pylint")
+load("@bazel_lint//python:yapf.bzl", "yapf")
 
 exports_files([
     "pylintrc",

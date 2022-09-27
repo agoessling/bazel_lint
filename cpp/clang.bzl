@@ -1,6 +1,6 @@
 """Clang linting macros."""
 
-load("@//common:lint_tool.bzl", "lint_tool")
+load("@bazel_lint//common:lint_tool.bzl", "lint_tool")
 
 def clang_format(
         name,
@@ -30,7 +30,7 @@ def clang_format(
 
     lint_tool(
         name = name,
-        tool = "@//cpp:clang-format",
+        tool = "@bazel_lint//cpp:clang-format",
         test_args = ["--dry-run", "--Werror"],
         fix_args = ["-i"],
         srcs = srcs,

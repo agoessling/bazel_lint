@@ -1,6 +1,6 @@
 """Yapf formatting macros."""
 
-load("@//common:lint_tool.bzl", "lint_tool")
+load("@bazel_lint//common:lint_tool.bzl", "lint_tool")
 
 def yapf(
         name,
@@ -28,9 +28,11 @@ def yapf(
     if not extra_args:
         extra_args = []
 
+    extra_args.append("--parallel")
+
     lint_tool(
         name = name,
-        tool = "@//python:yapf",
+        tool = "@bazel_lint//python:yapf",
         test_args = ["--diff"],
         fix_args = ["--in-place"],
         srcs = srcs,
