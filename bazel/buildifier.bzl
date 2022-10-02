@@ -9,11 +9,16 @@ def buildifier(
         glob_exclude = None,
         extra_args = None,
         visibility = None):
+    if not extra_args:
+        extra_args = []
+
+    extra_args.append("-diff_command=diff")
+
     lint_tool(
         name = name,
         tool = "@bazel_lint//bazel:buildifier",
-        test_args = ["-lint=warn"],
-        fix_args = ["-lint=fix"],
+        test_args = ["-mode=diff", "-lint=warn"],
+        fix_args = ["-mode=fix", "-lint=fix"],
         srcs = srcs,
         glob = glob,
         glob_exclude = glob_exclude,
