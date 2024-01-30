@@ -1,6 +1,22 @@
 load("@bazel_lint//bazel:buildifier.bzl", "buildifier")
-load("@bazel_lint//python:pylint.bzl", "pylint")
+load("@rules_python//python:pip.bzl", "compile_pip_requirements")
 load("@bazel_lint//python:yapf.bzl", "yapf")
+
+compile_pip_requirements(
+    name = "python_requirements",
+    extra_args = ["--allow-unsafe"],
+    requirements_in = ":requirements.txt",
+    requirements_txt = ":requirements_lock.txt",
+    tags = ["manual"],
+)
+
+filegroup(
+    name = "pip_requirements",
+    srcs = [
+        "requirements.txt",
+        "requirements_lock.txt",
+    ],
+)
 
 buildifier(
     name = "format_bazel",
@@ -14,19 +30,6 @@ buildifier(
     ],
 )
 
-pylint(
-    name = "lint_python",
-    extra_args = ["--disable=E0401"],
-    glob = [
-        "**/*.py",
-    ],
-    glob_exclude = [
-        "bazel-*/**",
-        "test/**",
-    ],
-    rcfile = "@bazel_lint//test/python:pylintrc",
-)
-
 yapf(
     name = "format_python",
     glob = [
@@ -37,4 +40,19 @@ yapf(
         "test/**",
     ],
     style_file = "@bazel_lint//test/python:yapfstyle",
+)
+
+# This is just the default pylintrc file that comes with pylint i.e.
+#   'pylint --generate-rcfile > .pylintrc'
+filegroup(
+    name = "pylintrc_default",
+    srcs = [
+        ".pylintrc",
+    ],
+)
+
+label_flag(
+    name = "pylintrc",
+    build_setting_default = ":pylintrc_default",
+    visibility = ["//visibility:public"],
 )
