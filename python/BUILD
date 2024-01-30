@@ -1,6 +1,7 @@
 load("@bazel_lint_py_deps//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_binary")
 
+
 py_binary(
     name = "pylint",
     srcs = ["pylint_wrapper.py"],
@@ -8,6 +9,7 @@ py_binary(
     visibility = ["//visibility:public"],
     deps = [
         requirement("pylint"),
+        requirement("tomli"),
     ],
 )
 
