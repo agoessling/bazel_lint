@@ -1,6 +1,37 @@
-###############################################################################
-# Bazel now uses Bzlmod by default to manage external dependencies.
-# Please consider migrating your external dependencies from WORKSPACE to MODULE.bazel.
-#
-# For more details, please check https://github.com/bazelbuild/bazel/issues/18958
-###############################################################################
+module(name = "bazel_lint")
+
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# rules_python
+bazel_dep(name = "rules_python", version = "0.34.0")
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+
+pip.parse(
+    hub_name = "pip",
+    python_version = "3.10",
+    requirements_lock = "//:requirements_lock.txt",
+)
+
+use_repo(pip, "pip")
+
+# bazel_skylib
+bazel_dep(name = "bazel_skylib", version = "1.7.1")
+
+# llvm
+http_archive(
+    name = "llvm",
+    build_file = "@bazel_lint//third_party:llvm.BUILD",
+    sha256 = "ad0f6eb12ecdfbdb61105e4fefbc2b16b90fb8a04248097acb7d2fe00ec4694d",
+    strip_prefix = "clang+llvm-14.0.6-x86_64-ubuntu-22.04",
+    url = "https://github.com/awakecoding/llvm-prebuilt/releases/download/v2022.2.0/clang+llvm-14.0.6-x86_64-ubuntu-22.04.tar.xz",
+)
+
+# buildifier
+http_file(
+    name = "buildifier",
+    sha256 = "52bf6b102cb4f88464e197caac06d69793fa2b05f5ad50a7e7bf6fbd656648a3",
+    url = "https://github.com/bazelbuild/buildtools/releases/download/5.1.0/buildifier-linux-amd64",
+    executable = True,
+)

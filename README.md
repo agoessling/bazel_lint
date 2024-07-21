@@ -10,21 +10,11 @@ Currently the following tools and rules are provide (for Linux):
 
 ## Usage
 
-### WORKSPACE
+### MODULE.bazel
 
-To incorporate `bazel_lint` into your project copy the following into your `WORKSPACE` file.
+To incorporate `bazel_lint` into your project copy the following into your `MODULE.bazel` file.
+NOTE: See older releases for `WORKSPACE` compatibility.
 
 ```Starlark
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
-http_archive(
-    name = "bazel_lint",
-    # See release page for latest version url and sha.
-)
-
-load("@bazel_lint//bazel_lint:bazel_lint_first_level_deps.bzl", "bazel_lint_first_level_deps")
-bazel_lint_first_level_deps()
-
-load("@bazel_lint//bazel_lint:bazel_lint_second_level_deps.bzl", "bazel_lint_second_level_deps")
-bazel_lint_second_level_deps()
+bazel_dep(name = "bazel_lint", version = "0.2.0")
 ```

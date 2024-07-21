@@ -1,4 +1,3 @@
-load("@bazel_lint_py_deps//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_binary")
 
 py_binary(
@@ -7,7 +6,7 @@ py_binary(
     main = "pylint_wrapper.py",
     visibility = ["//visibility:public"],
     deps = [
-        requirement("pylint"),
+        "@pip//pylint",
     ],
 )
 
@@ -17,6 +16,6 @@ py_binary(
     main = "yapf_wrapper.py",
     visibility = ["//visibility:public"],
     deps = [
-        requirement("yapf"),
+        "@pip//yapf",
     ],
 )
